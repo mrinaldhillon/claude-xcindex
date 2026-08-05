@@ -105,4 +105,38 @@ rm "${box}/.claude-plugin/plugin.json"
 [[ $? -eq 1 ]] || fail "missing manifest did not exit 1"
 ok "fails loudly when the manifest is absent"
 
+# ── 6. Refuses to move the version backwards ─────────────────────────────────
+# The regression this pins: release v1.2.2 rewrote a manifest reading 1.2.3,
+# because semantic-release baselines on the tags visible to the release runner
+# and the higher tags existed only in a contributor's local clone. A lower
+# version is not cosmetic -- it is a dead update path for every install already
+# on the higher one, and it fails silently. The release must break instead.
+box=$(new_box) # fixture starts at 1.2.3
+"${box}/scripts/set-plugin-version.sh" 1.2.2 >/dev/null 2>&1
+[[ $? -eq 1 ]] || fail "accepted a backwards version"
+[[ "$(version_of "$box")" == "1.2.3" ]] \
+    || fail "manifest was rewritten despite the backwards version"
+ok "refuses a backwards version and leaves the manifest untouched"
+
+# ── 7. Compares numerically, not lexicographically ───────────────────────────
+# "1.10.0" sorts BELOW "1.9.0" as a string; a string comparison here would
+# reject a legitimate release.
+box=$(new_box)
+"${box}/scripts/set-plugin-version.sh" 1.9.0 >/dev/null 2>&1 \
+    || fail "rejected a forward version (1.2.3 -> 1.9.0)"
+"${box}/scripts/set-plugin-version.sh" 1.10.0 >/dev/null 2>&1 \
+    || fail "rejected 1.10.0 after 1.9.0 -- comparison is lexicographic"
+[[ "$(version_of "$box")" == "1.10.0" ]] || fail "1.10.0 was not written"
+"${box}/scripts/set-plugin-version.sh" 1.9.0 >/dev/null 2>&1
+[[ $? -eq 1 ]] || fail "accepted 1.9.0 after 1.10.0"
+ok "orders versions numerically across all three components"
+
+# ── 8. An unchanged version is allowed ───────────────────────────────────────
+# Equal is a no-op rewrite, not a regression; only strictly-lower is refused.
+box=$(new_box)
+"${box}/scripts/set-plugin-version.sh" 1.2.3 >/dev/null 2>&1 \
+    || fail "rejected an unchanged version"
+[[ "$(version_of "$box")" == "1.2.3" ]] || fail "manifest changed unexpectedly"
+ok "allows rewriting the same version"
+
 printf '\n%d/%d passed\n' "$PASS" "$PASS"
