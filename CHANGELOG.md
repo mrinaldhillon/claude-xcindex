@@ -10,6 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- `scripts/set-plugin-version.sh` refuses to move `plugin.json`'s version
+  backwards, failing the release instead. The version is the install cache key,
+  so a lower value is not cosmetic — every install already on the higher value
+  stops seeing updates, silently and permanently. Release `v1.2.2` did exactly
+  that, rewriting a manifest that read `1.2.3`: semantic-release baselines on
+  the tags visible to the release runner, and the `v2.x`/`v3.x` tags that a
+  contributor's local dry-run had ranked against existed only in that clone,
+  fetched from the parent repository by `gh repo clone`. A guarded release
+  fails loudly; an unguarded one leaves a dead update path.
+
+## [1.2.2] - 2026-08-05
+
 ### Fixed
 - `.claude-plugin/plugin.json`'s `version` is now written by the release, not
   by hand. Claude Code names an installed plugin's cache directory after that
@@ -26,14 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   fixes had already merged — the state this one was in, having merged five
   commits while Actions was disabled — had no way to cut a release short of a
   dummy commit.
-
-### Note
-- The first release cut after this change jumps the tag train to **3.x**.
-  semantic-release baselines on the highest tag reachable from `main`, which is
-  upstream's `v3.0.2`, not the hand-cut `v1.2.1` that descends from it. This
-  was already true before this change; enabling Actions is what made it
-  reachable. The jump is monotonic against the old manifest value, which is
-  what the install path requires.
 
 - Index freshness is read from the newest directory in the DataStore tree
   instead of the store root's own mtime. The root is stamped when the store
