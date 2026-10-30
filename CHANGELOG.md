@@ -10,6 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- The four `swift-*` skills no longer carry their when-to-use guidance in
+  frontmatter. Claude Code appends `when_to_use` to a skill's description in
+  the skill listing, and a plugin's skill listing is in every session's
+  context, Swift project or not: `skillOverrides` does not apply to plugin
+  skills, and the `/skills` menu shows them locked by the plugin. Each skill
+  now describes itself in one sentence that keeps its trigger words, and the
+  guidance is the first section of the body, read when the skill is invoked;
+  nothing was deleted, only moved from always-on to on-invoke. The pre-grep
+  hook still names the four skills on a Swift grep. Measured with
+  `claude --plugin-dir . plugin details xcindex` on Claude Code 2.1.314:
+  always-on ~1,645 → ~480 tokens.
+
 ### Added
 - `scripts/set-plugin-version.sh` refuses to move `plugin.json`'s version
   backwards, failing the release instead. The version is the install cache key,

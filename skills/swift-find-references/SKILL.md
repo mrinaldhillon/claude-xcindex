@@ -1,16 +1,18 @@
 ---
 name: swift-find-references
-description: Find every semantic reference to a Swift or Objective-C symbol via Xcode's pre-built index — no false positives from comments, string literals, or similarly-named symbols in unrelated modules. Use this when planning a change to scope its surface, before grep/ripgrep, and before reading files to trace call chains.
-when_to_use: |
-  Trigger on phrasing like "where is X called", "what uses X", "find all references
-  to X", "callers of fetchUser", "who calls this", "what depends on Y", "trace the
-  callers of Z", "estimate the impact of changing the signature of X". Reach for
-  this skill BEFORE running rg/grep on .swift files, BEFORE reading multiple files
-  to trace a call chain, and BEFORE editing any public API. For broader scoping
-  (sites + risks + recommended execution path) use swift-refactor-plan instead.
-  Skip only when the symbol is obviously local to a single file or the user is
-  searching string literals/comments (use Grep for those).
+description: Find every semantic reference to a Swift or Objective-C symbol from Xcode's index (who calls X, what uses X) before grep or reading files to trace a call chain.
 ---
+
+# When to use
+
+Trigger on phrasing like "where is X called", "what uses X", "find all references
+to X", "callers of fetchUser", "who calls this", "what depends on Y", "trace the
+callers of Z", "estimate the impact of changing the signature of X". Reach for
+this skill BEFORE running rg/grep on .swift files, BEFORE reading multiple files
+to trace a call chain, and BEFORE editing any public API. For broader scoping
+(sites + risks + recommended execution path) use swift-refactor-plan instead.
+Skip only when the symbol is obviously local to a single file or the user is
+searching string literals/comments (use Grep for those).
 
 # What this skill does
 

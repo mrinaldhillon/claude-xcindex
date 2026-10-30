@@ -1,19 +1,21 @@
 ---
 name: swift-blast-radius
-description: Compute the dependency blast radius of a Swift or Objective-C file — direct dependents, one hop of transitive callers, and covering tests — from Xcode's pre-built index. Use this when planning a refactor, scoping a structural change, or sizing the impact of editing a shared file, before reading anything.
-when_to_use: |
-  Trigger on phrasing like "what does this file affect", "what depends on
-  AuthService.swift", "what will break if I change this", "what tests cover this
-  code", "blast radius of NetworkClient.swift", "scope this refactor", "how big a
-  change is this", "is it safe to edit X". Reach for this skill BEFORE editing
-  any shared utility, service, manager, or model file, and BEFORE starting any
-  non-trivial refactor — the result tells you the minimal set of files you
-  actually need to read. For broader scoping that includes risks and a
-  recommended execution path, use swift-refactor-plan. For symbol-level (not
-  file-level) impact, use swift-find-references. Skip when the file is an
-  obvious leaf (a specific View or ViewModel with no callers) or the index is
-  stale.
+description: Compute what a Swift or Objective-C file affects from Xcode's index (direct dependents, one hop of callers, covering tests) before editing a shared file or starting a refactor.
 ---
+
+# When to use
+
+Trigger on phrasing like "what does this file affect", "what depends on
+AuthService.swift", "what will break if I change this", "what tests cover this
+code", "blast radius of NetworkClient.swift", "scope this refactor", "how big a
+change is this", "is it safe to edit X". Reach for this skill BEFORE editing
+any shared utility, service, manager, or model file, and BEFORE starting any
+non-trivial refactor — the result tells you the minimal set of files you
+actually need to read. For broader scoping that includes risks and a
+recommended execution path, use swift-refactor-plan. For symbol-level (not
+file-level) impact, use swift-find-references. Skip when the file is an
+obvious leaf (a specific View or ViewModel with no callers) or the index is
+stale.
 
 # What this skill does
 

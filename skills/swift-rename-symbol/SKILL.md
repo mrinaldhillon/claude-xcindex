@@ -1,16 +1,18 @@
 ---
 name: swift-rename-symbol
-description: Execute a semantic rename of a Swift or Objective-C symbol — type, method, property, protocol, enum case — across the codebase via Xcode's index, dispatched to the swift-refactor-specialist subagent so the main context isn't flooded with 50 file reads. Renames the actual symbol; never touches similarly-named text in comments or unrelated modules.
-when_to_use: |
-  Trigger on phrasing like "rename X to Y", "change fetchUser to loadUser",
-  "rename the AuthDelegate protocol", "go ahead and rename", "do the rename now",
-  "apply the rename across the project". Use this skill only once the user has
-  committed to the rename. If they're still scoping ("what would this rename
-  touch", "preview the rename", "is it safe to rename X") use swift-refactor-plan
-  first — it produces the plan, this skill executes it. Skip when the rename is
-  local to a single file (just use Edit directly) or when the index is stale and
-  the user hasn't rebuilt in Xcode (rebuild first or the rename will miss sites).
+description: Execute a rename the user has committed to, of a Swift or Objective-C symbol across the codebase from Xcode's index, through the swift-refactor-specialist subagent.
 ---
+
+# When to use
+
+Trigger on phrasing like "rename X to Y", "change fetchUser to loadUser",
+"rename the AuthDelegate protocol", "go ahead and rename", "do the rename now",
+"apply the rename across the project". Use this skill only once the user has
+committed to the rename. If they're still scoping ("what would this rename
+touch", "preview the rename", "is it safe to rename X") use swift-refactor-plan
+first — it produces the plan, this skill executes it. Skip when the rename is
+local to a single file (just use Edit directly) or when the index is stale and
+the user hasn't rebuilt in Xcode (rebuild first or the rename will miss sites).
 
 # What this skill does
 

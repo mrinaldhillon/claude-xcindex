@@ -1,19 +1,21 @@
 ---
 name: swift-refactor-plan
-description: Produce a complete written refactor plan for Swift or Objective-C code — rename, signature change, type extraction, protocol split, API migration — listing every site that will change (grouped by file with line numbers), the risks (overrides, conformances, @objc bridging, cross-module public API, test coverage), and the recommended execution path. Pure planning — makes zero edits. Use whenever the user wants to scope, preview, or estimate a Swift change before committing to it.
-when_to_use: |
-  Trigger on planning-flavored phrasing like "plan a rename of X", "what would
-  changing X involve", "before I rename, show me what changes", "I'm thinking
-  about extracting Y", "preview the rename of Z", "scope this refactor", "what
-  is the impact of changing AuthService's signature", "draft a migration plan
-  from old API to new", "is this rename safe", "how big a change is this". Also
-  reach for this skill whenever the user is in plan-mode-style discussion about
-  Swift code, even without the word "plan" — any request to understand a change
-  before making it qualifies. Use BEFORE swift-rename-symbol when the user wants
-  to inspect the surface first. Skip and go straight to swift-rename-symbol /
-  swift-find-references when the user has clearly committed ("just do it", "go
-  ahead and rename", "apply it now").
+description: Write a plan for a Swift or Objective-C refactor, with no edits, from Xcode's index (every site, the risks, the recommended path) whenever the user wants to scope or preview a change first.
 ---
+
+# When to use
+
+Trigger on planning-flavored phrasing like "plan a rename of X", "what would
+changing X involve", "before I rename, show me what changes", "I'm thinking
+about extracting Y", "preview the rename of Z", "scope this refactor", "what
+is the impact of changing AuthService's signature", "draft a migration plan
+from old API to new", "is this rename safe", "how big a change is this". Also
+reach for this skill whenever the user is in plan-mode-style discussion about
+Swift code, even without the word "plan" — any request to understand a change
+before making it qualifies. Use BEFORE swift-rename-symbol when the user wants
+to inspect the surface first. Skip and go straight to swift-rename-symbol /
+swift-find-references when the user has clearly committed ("just do it", "go
+ahead and rename", "apply it now").
 
 # What this skill does
 
